@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Altitude — Channel Tab Setup</title>
+    <script
+      src="https://res.cdn.office.net/teams-js/2.22.0/js/MicrosoftTeams.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: radial-gradient(circle at top right, #231c13 0%, #0f1115 65%);
+        color: #f6f3ec;
+      }
+      .card {
+        width: 100%;
+        max-width: 460px;
+        border: 1px solid rgba(196, 146, 42, 0.35);
+        border-radius: 16px;
+        padding: 24px;
+        background: rgba(20, 22, 28, 0.92);
+        box-shadow: 0 18px 42px rgba(0, 0, 0, 0.45);
+      }
+      .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #e6be6a;
+        background: rgba(196, 146, 42, 0.16);
+        margin-bottom: 12px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        font-weight: 600;
+        color: #ffffff;
+      }
+      p {
+        margin: 0 0 16px;
+        font-size: 13.5px;
+        line-height: 1.55;
+        color: rgba(246, 243, 236, 0.78);
+      }
+      label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: rgba(246, 243, 236, 0.88);
+        margin-bottom: 6px;
+      }
+      input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(196, 146, 42, 0.4);
+        background: rgba(10, 12, 16, 0.85);
+        color: #ffffff;
+        font-size: 14px;
+        outline: none;
+      }
+      .status {
+        margin-top: 14px;
+        font-size: 12px;
+        color: #7ee2b8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <span class="badge">Etihad Airways · Power Platform</span>
+      <h1>Altitude — Assessment Studio</h1>
+      <p>
+        Click <strong>Save</strong> below to pin Altitude (Knowledge Analytics, MKA Assessments, Scoreboard &amp; Admin Console) to this channel.
+      </p>
+      <label for="tabName">Tab display name</label>
+      <input id="tabName" type="text" value="Assessment Studio" />
+      <div class="status" id="statusText">Ready to save to channel.</div>
+    </div>
+
+    <script>
+      (function () {
+        var CONTENT_URL =
+          "https://apps.powerapps.com/play/e/eb40574b-c4ca-e340-a7a0-f3ccaeadcc57/app/1aac5cf5-039f-4a2e-984b-e6d1b48eba86?tenantId=ebb8b82e-fe09-4b7e-a6c7-fd35f446bf96&hint=662d98db-5e30-4a28-b723-9928befa5ddf&source=teamstab&hidenavbar=true";
+        var WEBSITE_URL =
+          "https://apps.powerapps.com/play/e/eb40574b-c4ca-e340-a7a0-f3ccaeadcc57/app/1aac5cf5-039f-4a2e-984b-e6d1b48eba86?tenantId=ebb8b82e-fe09-4b7e-a6c7-fd35f446bf96&hint=662d98db-5e30-4a28-b723-9928befa5ddf&source=portal";
+
+        function getTabName() {
+          var input = document.getElementById("tabName");
+          return (input && input.value && input.value.trim()) || "Assessment Studio";
+        }
+
+        function initTeamsConfig() {
+          if (!window.microsoftTeams) return;
+
+          if (microsoftTeams.app && typeof microsoftTeams.app.initialize === "function") {
+            microsoftTeams.app
+              .initialize()
+              .then(function () {
+                microsoftTeams.pages.config.registerOnSaveHandler(function (saveEvent) {
+                  microsoftTeams.pages.config
+                    .setConfig({
+                      entityId: "altitude-assessment-studio",
+                      suggestedDisplayName: getTabName(),
+                      contentUrl: CONTENT_URL,
+                      websiteUrl: WEBSITE_URL,
+                    })
+                    .then(function () {
+                      saveEvent.notifySuccess();
+                    })
+                    .catch(function () {
+                      saveEvent.notifySuccess();
+                    });
+                });
+                microsoftTeams.pages.config.setValidityState(true);
+              })
+              .catch(function () {
+                // Fallback to v1 SDK API if needed
+                if (microsoftTeams.settings) {
+                  microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+                    microsoftTeams.settings.setSettings({
+                      entityId: "altitude-assessment-studio",
+                      suggestedDisplayName: getTabName(),
+                      contentUrl: CONTENT_URL,
+                      websiteUrl: WEBSITE_URL,
+                    });
+                    saveEvent.notifySuccess();
+                  });
+                  microsoftTeams.settings.setValidityState(true);
+                }
+              });
+          } else if (microsoftTeams. initialize) {
+            microsoftTeams.initialize(function () {
+              microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+                microsoftTeams.settings.setSettings({
+                  entityId: "altitude-assessment-studio",
+                  suggestedDisplayName: getTabName(),
+                  contentUrl: CONTENT_URL,
+                  websiteUrl: WEBSITE_URL,
+                });
+                saveEvent.notifySuccess();
+              });
+              microsoftTeams.settings.setValidityState(true);
+            });
+          }
+        }
+
+        initTeamsConfig();
+      })();
+    </script>
+  </body>
+</html>
